@@ -3,19 +3,40 @@
 	<head>
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 
 	<body>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
+		<div class="header">
+			<div class="logo">
+				<img src="packmanLogo.jpg" id="logo">
+			</div>
+
+			<div class="menu">
+				<ul id="menu_bar">
+					<li><a href="#welcome" class="menuButton">Welcome</a></li>
+					<li><a href="#register" class="menuButton">Register</a></li>
+					<li><a href="#login" class="menuButton">Login</a></li>
+					<li><a href="#aboutus" class="menuButton">About us</a></li>
+				</ul>
+			</div>
 		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
-		</div>
-		<div id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
+		<div class="content">
+
+			<div id="score">
+				<label for="lblScore">SCORE:</label>
+				<input id="lblScore" type="text" />
+			</div>
+
+			<div id="time">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
+			</div>
+
+			<div id="game">
+				<canvas id="canvas" height="600" width="600"></canvas>
+			</div>
+
 		</div>
 	</body>
 </html>
