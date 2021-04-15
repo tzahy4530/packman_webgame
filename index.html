@@ -4,6 +4,12 @@
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css" />
+		<style>
+			canvas {
+			   height: 600;
+			   width: 100%;
+			}
+			</style>
 	</head>
 
 	<body>
@@ -17,26 +23,42 @@
 					<li><a href="#welcome" class="menuButton">Welcome</a></li>
 					<li><a href="#register" class="menuButton">Register</a></li>
 					<li><a href="#login" class="menuButton">Login</a></li>
-					<li><a href="#aboutus" class="menuButton">About us</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class="content">
-
-			<div id="score">
-				<label for="lblScore">SCORE:</label>
-				<input id="lblScore" type="text" />
+			<div id="indication">
+				<ul id="indication_bar">
+					<!-- <li>
+						<label for="lblScore">SCORE:</label>
+						<input id="lblScore" type="text" style="width: 30px;" />
+					</li>
+					<li>
+						<label for="lblTime">TIME:</label>
+						<input id="lblTime" type="text" style="width: 30px;" />
+					</li> -->
+				</ul> 
 			</div>
-
-			<div id="time">
-				<label for="lblTime">TIME:</label>
-				<input id="lblTime" type="text" />
+			<div id = register>
+				<form id=register_form action="#" method="post">
+					<ul id=register_form_ul>
+					</ul>
+				</form>
+			</div>
+			<div id="welcome">
+				<ul id="welcome_ul">
+				</ul>
+				<!-- <canvas id="canvas" height="600" width="1349"></canvas> -->
 			</div>
 
 			<div id="game">
-				<canvas id="canvas" height="600" width="600"></canvas>
+				<!-- <canvas id="canvas" height="600" width="1349"></canvas> -->
 			</div>
-
+		</div>
+		<div class="footer">
+			<ul id="footer_bar">
+				<li><a href="#aboutus" class="footerButton">About us</a></li>
+			</ul>
 		</div>
 	</body>
 </html>
