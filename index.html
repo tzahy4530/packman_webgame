@@ -3,13 +3,9 @@
 	<head>
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
+		<script type="text/javascript" src="./game.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css" />
-		<style>
-			canvas {
-			   height: 600;
-			   width: 100%;
-			}
-			</style>
+		
 	</head>
 
 	<body>
@@ -18,11 +14,11 @@
 				<img src="packmanLogo.jpg" id="logo">
 			</div>
 
-			<div class="menu">
+			<div class="menu" id="menu">
 				<ul id="menu_bar">
-					<li><a href="#welcome" class="menuButton">Welcome</a></li>
-					<li><a href="#register" class="menuButton">Register</a></li>
-					<li><a href="#login" class="menuButton">Login</a></li>
+					<li><a onclick="return moveWellcome()">Welcome</a></li>
+					<li><a onclick="return moveRegister()">Register</a></li>
+					<li><a onclick="return moveLogin()">Login</a></li>
 				</ul>
 			</div>
 		</div>
