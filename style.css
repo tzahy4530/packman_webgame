@@ -98,7 +98,7 @@ a.footerButton:hover{
 
 #welcome_ul li{
     list-style-type:none;
-    margin-bottom: 2.5%;
+    padding-top: 2.5%;
 }
 
 button, #register_form input[type=submit] {
@@ -184,9 +184,13 @@ button:after, #register_form input[type=submit]::after {
     color: #FFFFFF;
     text-align-last: center;
     margin-left: auto; 
-	margin-right: auto; 
+	margin-right: auto;
     display: inline-block; 
 	text-align: left; 
+}
+
+#register_form_ul li {
+    margin-top: 3%; 
 }
 
 /* 
