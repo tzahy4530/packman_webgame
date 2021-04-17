@@ -34,7 +34,7 @@ ul#indication_bar li{
     color: #FFFFFF;
 }
 
-#menu_bar li a{
+a.menu_button{
     display: inline-block;
     padding: 0.35em 1.2em;
     border:0.1em solid #FFFFFF;
@@ -49,18 +49,21 @@ ul#indication_bar li{
     transition: all 0.2s;
 }
 
-#menu_bar li a:hover{
+a.menu_button:hover{
     color:#000000;
     background-color:#FFFFFF;
 }
 
 @media all and (max-width:30em){
-     #menu_bar li a{
+     a.menu_button{
         display:block;
         margin:0.4em auto;
         }
     }
 
+#hello_user{
+    color: white;
+}
 
 #footer_bar{
     width: 100%;
@@ -88,10 +91,10 @@ a.footerButton:hover{
 
 }
 
-.content{
+#content{
     height: 680px;
     width: 100%;
-    background: #2d2c3e;
+    background: #44435e;
     margin-bottom: -18px;
 }
 
@@ -110,7 +113,7 @@ button, #register_form input[type=submit] {
     border: none;
     outline: none;
     color: #fff;
-    background: #38374d;
+    background: #3f3e58;
     cursor: pointer;
     position: relative;
     z-index: 0;
@@ -154,7 +157,7 @@ button:after, #register_form input[type=submit]::after {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #38374d;
+    background: #3f3e58;
     left: 0;
     top: 0;
     border-radius: 10px;
@@ -202,4 +205,85 @@ button:after, #register_form input[type=submit]::after {
 
 body {
     max-width: 95%;
+}
+
+#setting_div {
+
+
+    max-width: calc(100% - 2em);
+    margin: 1em auto;
+    overflow: hidden;
+    width: 800px;
+}
+
+.setting_header {
+    border: 1px solid #605e6e;
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    margin-top: 2%;
+    opacity: 90%;
+    background-color: #1f1e35;
+    color: rgb(255, 255, 255);
+    font-size: 1.15em;
+    padding: 0.2rem;
+    text-align: center;
+    text-transform: uppercase;
+ }
+
+.setting_header table {
+    width: 100%;
+}
+.setting_header table tr td{
+    color: black;
+    font-size: 0.9em;
+    padding: 5px;
+}
+.setting_header table tr td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.setting_header table tr td:last-child {
+    font-size: 0.95em;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.setting_header table tr:nth-child(2n) {
+    background-color: #ffffffad;
+}
+.setting_header table tr:nth-child(2n+1) {
+    background-color: #ddddddbb;
+}
+
+.setting_header table tr td input{
+    background-color: #ffffffaf;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.setting_header table tr td select{
+    background-color: #ffffffaf;
+    border-radius: 15px;
+    width: fit-content;
+    height:fit-content;
+    text-size-adjust: auto;
+    text-align: center;
+}
+
+#setting_buttons_table{
+    text-align: center;
+    list-style-type: none;
+}
+
+#setting_buttons_table li{
+    padding-bottom: 15px;
+}
+
+.setting_header table tr td input[type=color] {
+    width: 6%;
+}
+
+.setting_header table tr td input[type=text] {
+    width: 15%;
 }

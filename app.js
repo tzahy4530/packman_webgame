@@ -10,6 +10,7 @@ function clearPage(){
 	for(let div of active_divs){
 		div.remove()
 	}
+	active_divs = [];
 }
 
 function moveWellcome(){
@@ -120,7 +121,7 @@ function login(){
 				if(valid){
 					document.getElementById('register').remove()
 					active_divs = [];
-					GameMenu(this.login_user);
+					GameMenu(user_dic[login_user]);
 				}
 				e.preventDefault();
 			});
