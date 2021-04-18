@@ -1,4 +1,4 @@
-var user_dic = {'k':['k','tester','test@bgu.ac.il']};
+var user_dic = {'k':['k','tester','test@bgu.ac.il','1990-01-01']};
 var active_divs = []
 
 $(document).ready(function() {
@@ -165,6 +165,10 @@ function register(){
 	email_label.for = "email"
 	email_label.textContent = "Email:"
 
+	var birthday_label = document.createElement("LABEL");
+	birthday_label.for = "birthday"
+	birthday_label.textContent = "Birthday:"
+
 	var username_input = document.createElement("INPUT");
 	username_input.id = "username";
 	username_input.name = "username";
@@ -189,6 +193,11 @@ function register(){
 	email_input.placeholder = "Your email.."
 	email_input.type = "text";
 
+	var birthday_input = document.createElement("INPUT");
+	birthday_input.id = "birthday";
+	birthday_input.name = "birthday";
+	birthday_input.type = "date";
+
 	var confirm = document.createElement("INPUT");
 	confirm.type = "submit";
 	confirm.value = "Confirm"
@@ -209,6 +218,10 @@ function register(){
 	email_li.appendChild(email_label);
 	email_li.appendChild(email_input);
 
+	var birthday_li = document.createElement("LI");
+	birthday_li.appendChild(birthday_label);
+	birthday_li.appendChild(birthday_input);
+
 	var confirm_li = document.createElement("LI");
 	confirm_li.appendChild(confirm)
 
@@ -216,6 +229,7 @@ function register(){
 	document.getElementById("register_form_ul").appendChild(password_li);
 	document.getElementById("register_form_ul").appendChild(name_li);
 	document.getElementById("register_form_ul").appendChild(email_li);
+	document.getElementById("register_form_ul").appendChild(birthday_li);
 	document.getElementById("register_form_ul").appendChild(confirm_li);
 
 
@@ -239,24 +253,26 @@ function register(){
 			fullname: /\d/
 		},
 
-		register: function(username,password,fullname,email){
+		register: function(username,password,fullname,email,birthday){
 			var username = $(username).val();
 			var password = $(password).val();
 			var fullname = $(fullname).val();
 			var email = $(email).val();
+			var birthday = $(birthday).val();
 
-			user_dic[username] = [password, fullname, email];
+			user_dic[username] = [password, fullname, email, birthday];
 			alert("Registration succeeded.");
 			return null;
 		},
 
-		validate: function(username,password,fullname,email) {
+		validate: function(username,password,fullname,email,birthday) {
 			var username = $(username).val();
 			var password = $(password).val();
 			var fullname = $(fullname).val();
 			var email = $(email).val();
+			var birthday = $(birthday).val();
 			
-			if (username == '' || password == '' || fullname == '' || email == ''){
+			if (username == '' || password == '' || fullname == '' || email == '' || birthday == ''){
 				alert("All field are required.");
 				return false;
 			} 
@@ -282,9 +298,9 @@ function register(){
 		},
 		init: function() {
 			$('#register_form').submit(function(e) {
-				var valid = Registrator.validate('#username','#password','#fullname','#email');
+				var valid = Registrator.validate('#username','#password','#fullname','#email','#birthday');
 				if (valid){
-					Registrator.register('#username','#password','#fullname','#email');
+					Registrator.register('#username','#password','#fullname','#email','#birthday');
 					document.getElementById("register").remove();
 					wellcome();
 				}
