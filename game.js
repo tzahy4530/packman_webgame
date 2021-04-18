@@ -18,6 +18,7 @@ var ball_15_point_color = "#FF0000"
 var ball_25_point_color = "#FFFF00"
 var total_time = 90;
 var num_monsters = 2;
+var monster_array=new Array();
 var up_key_code = "ArrowUp";
 var down_key_code = "ArrowDown";
 var left_key_code = "ArrowLeft";
@@ -649,9 +650,25 @@ function GameStart() {
     //4-wall 
     //5-15 points food
     //6- 25 point food 
-    //7- elusive_pacman
-   elusive_pacman_alive=true;
 
+    elusive_pacman_alive=true;
+    for (i=0;i<num_monsters;i++){
+        var new_monster=new Object()
+        new_monster.i=0;
+        new_monster.j=0;
+        new_monster.image=new Image()
+        if (i==0){
+            new_monster.image.src="pacman-ghosts-cyan.png"
+        }
+        //  else if (i==1){
+         
+        // } else if (i==2){
+         
+        // } else if (i==3){
+
+        // }  
+        monster_array.push(new_monster);       
+    }
     lives=3;
     var game_container_div = document.createElement("DIV");
     game_container_div.id = "game_container";
@@ -992,7 +1009,9 @@ function Draw() {
 				context.fillStyle = "grey"; //color
 				context.rect(center.x - 30, center.y - 30, 60, 60);
 				context.fill();
-			}
+			}else if (i==0 & j==0){
+                context.drawImage(monster_array[0].image,0,0,60,50);
+            }
 		}
 	}
 }
