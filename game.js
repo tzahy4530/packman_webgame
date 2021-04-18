@@ -1055,7 +1055,7 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 2;
     if (elusive_pacman_alive){
         //update elusive pacman position
-        var x=move_elusive_pacman();
+        var x=get_next_elusive_pacman_move();
         if (x == 1) {
             if (elusive_pacman_object.j > 0 && board[elusive_pacman_object.i][elusive_pacman_object.j - 1] != 4) {
                 elusive_pacman_object.j--;
@@ -1087,7 +1087,12 @@ function UpdatePosition() {
 	if (score >= 500) {
 		window.clearInterval(interval);
 		window.alert("Game completed");
-	} else {
+	} 
+    else if(time_elapsed==total_time){
+        window.clearInterval(interval);
+		window.alert("Time over");
+    }
+    else {
 		Draw();
 	}
 }
@@ -1107,7 +1112,7 @@ function getFoodType(food_remain_5,food_remain_15,food_remain_25){
 
     return remains_food[food_type_number];
 }
-function move_elusive_pacman(){
+function get_next_elusive_pacman_move(){
     var next_move=Math.floor(Math.random()*4);
     if (next_move==0) {
         last_elusive_pacman_position = 1;
