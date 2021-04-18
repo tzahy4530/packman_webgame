@@ -8,6 +8,7 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
+var enemy_interval;
 var login_user;
 var active_divs = []
 var last_position = 4;
@@ -29,6 +30,7 @@ var lives;
 var ball_5_text_color;
 var ball_15_text_color;
 var ball_25_text_color;
+
 
 
 function GameMenu(login_user) {
@@ -73,12 +75,14 @@ function GameMenu(login_user) {
 function moveGameMenu(){
     clearPage();
     window.clearInterval(interval);
+    window.clearInterval(enemy_interval);
     document.getElementById('content').style.height = "680px";
     GameMenu(login_user);   
 }
 
 function moveWellcomeFromGame(){
     window.clearInterval(interval);
+    window.clearInterval(enemy_interval);
     document.getElementById('content').style.height = "680px";
     BarHomeUpdate();
     moveWellcome();
@@ -650,23 +654,29 @@ function GameStart() {
     //4-wall 
     //5-15 points food
     //6- 25 point food 
-
+    monster_array=new Array();
     elusive_pacman_alive=true;
     for (i=0;i<num_monsters;i++){
         var new_monster=new Object()
-        new_monster.i=0;
-        new_monster.j=0;
         new_monster.image=new Image()
         if (i==0){
             new_monster.image.src="pacman-ghosts-cyan.png"
+            new_monster.i=0;
+            new_monster.j=0;
         }
-        //  else if (i==1){
-         
-        // } else if (i==2){
-         
-        // } else if (i==3){
-
-        // }  
+         else if (i==1){
+            new_monster.image.src="pacman-ghosts-orange.png"
+            new_monster.i=0;
+            new_monster.j=9;
+        } else if (i==2){
+            new_monster.image.src="pacman-ghosts-ping.png"
+            new_monster.i=24;
+            new_monster.j=0;
+        } else if (i==3){
+            new_monster.image.src="pacman-ghosts-red.png"
+            new_monster.i=24;
+            new_monster.j=9;
+        }  
         monster_array.push(new_monster);       
     }
     lives=3;
@@ -863,12 +873,25 @@ function GameStart() {
 		false
 	);
 	interval = setInterval(UpdatePosition, 150);
-}
+    enemy_interval=setInterval(move_enemies,300);
 
+}
+function isFreeSpace(board ,i ,j){
+    if (board[i][j]!=0){
+        return false;
+    }
+    for (i=0;i<monster_array.length;i++){
+        if (i==monster_array[i].i && j==monster_array[i].j){
+            return false;
+        }
+    }
+    return true;
+}
 function findRandomEmptyCell(board) {
+    let free_space=false;
 	var i = Math.floor(Math.random() * 24 + 1);
 	var j = Math.floor(Math.random() * 9 + 1);
-	while (board[i][j] != 0) {
+	while (!isFreeSpace(board,i,j)) {
 		i = Math.floor(Math.random() * 24 + 1);
 		j = Math.floor(Math.random() * 9 + 1);
 	}
@@ -1009,11 +1032,19 @@ function Draw() {
 				context.fillStyle = "grey"; //color
 				context.rect(center.x - 30, center.y - 30, 60, 60);
 				context.fill();
-			}else if (i==0 & j==0){
-                context.drawImage(monster_array[0].image,0,0,60,50);
-            }
+			}
+            // else if (i==0 & j==0){
+                // context.drawImage(monster_array[0].image,0,0,60,50);
+            // }
 		}
 	}
+    for (i=0;i<monster_array.length;i++){
+        var center = new Object();
+        center.x = monster_array[i].i * 60 ;
+        center.y = monster_array[i].j * 60 ;
+        context.drawImage(monster_array[i].image,center.x,center.y,60,50);
+
+    }
 }
 
 function UpdatePosition() {
@@ -1081,22 +1112,38 @@ function UpdatePosition() {
             }
         }
     }
+    // move_enemies();
 	var currentTime = new Date();
 	time_elapsed = Math.floor((currentTime - start_time) / 1000);
 
+    for (i=0;i<monster_array.length;i++){
+        if (shape.i==monster_array[i].i && shape.j == monster_array[i].j){
+            lives--;
+            let freeSpace=findRandomEmptyCell(board);
+            board[shape.i][shape.j]=0;
+            shape.i=freeSpace[0];
+            shape.j=freeSpace[1];
+            board[freeSpace[0]][freeSpace[1]]=2;
+        }
+    }
     
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
 	if (score >= 500) {
 		window.clearInterval(interval);
+		window.clearInterval(enemy_interval);
 		window.alert("Game completed");
 	} 
     else if(time_elapsed==total_time){
         window.clearInterval(interval);
+        window.clearInterval(enemy_interval);
 		window.alert("Time over");
-    }
-    else {
+    }else if (lives==0){
+        window.clearInterval(interval);
+        window.clearInterval(enemy_interval);
+		window.alert("You lose!");
+    }else {
 		Draw();
 	}
 }
@@ -1132,4 +1179,34 @@ function get_next_elusive_pacman_move(){
 	}
     last_elusive_pacman_position = 4;
     return 4;
+}
+function move_enemies(){
+    for (i=0;i<num_monsters;i++){
+        var move_options=new Array();
+        move_options.push([monster_array[i].i,monster_array[i].j]);
+        if (monster_array[i].i>0 && board[monster_array[i].i-1][monster_array[i].j]!=4){
+            move_options.push([monster_array[i].i-1,monster_array[i].j]) ;  
+        }
+        if (monster_array[i].j>0 && board[monster_array[i].i][monster_array[i].j-1]!=4){
+            move_options.push([monster_array[i].i,monster_array[i].j-1])  ;
+        }
+        if (monster_array[i].i<24 && board[monster_array[i].i+1][monster_array[i].j]!=4){
+            move_options.push([monster_array[i].i+1,monster_array[i].j])  ;
+        }
+        if (monster_array[i].j<9 && board[monster_array[i].i][monster_array[i].j+1]!=4){
+            move_options.push([monster_array[i].i,monster_array[i].j+1])  ;
+        }
+        var best_option=null;
+        var min_distance=Infinity;
+        for (j=0;j<move_options.length;j++){
+            let distance=Math.sqrt(Math.pow(move_options[j][0]-shape.i,2)+Math.pow(shape.j-move_options[j][1],2));
+            if (distance<min_distance){
+                min_distance=distance;
+                best_option=j;
+            }
+        }
+        monster_array[i].i=move_options[best_option][0];
+        monster_array[i].j=move_options[best_option][1];
+    }
+    
 }
