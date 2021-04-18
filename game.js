@@ -90,7 +90,7 @@ function BarGameUpdate(){
 
     var username_a = document.createElement("A");
     username_a.id = 'hello_user';
-    username_a.innerText = "Hello " + login_user[0] + ".";
+    username_a.innerText = "Hello " + login_user + ".";
     username_li.appendChild(username_a);
 
     var welcome_a = document.createElement("A");
@@ -761,14 +761,14 @@ function GameStart() {
 	addEventListener(
 		"keydown",
 		function(e) {
-			keysDown[e.keyCode] = true;
+			keysDown[e.key] = true;
 		},
 		false
 	);
 	addEventListener(
 		"keyup",
 		function(e) {
-			keysDown[e.keyCode] = false;
+			keysDown[e.key] = false;
 		},
 		false
 	);
@@ -786,19 +786,19 @@ function findRandomEmptyCell(board) {
 }
 
 function GetKeyPressed() {
-	if (keysDown[38]) {
+	if (keysDown[up_key_code]) {
         last_position = 1;
 		return 1;
 	}
-	if (keysDown[40]) {
+	if (keysDown[down_key_code]) {
         last_position = 2;
 		return 2;
 	}
-	if (keysDown[37]) {
+	if (keysDown[left_key_code]) {
         last_position = 3;
 		return 3;
 	}
-	if (keysDown[39]) {
+	if (keysDown[right_key_code]) {
         last_position = 4;
 		return 4;
 	}
@@ -807,7 +807,7 @@ function GetKeyPressed() {
 function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
-	lblTime.value = time_elapsed;
+	lblTime.value = total_time - time_elapsed;
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();

@@ -121,7 +121,7 @@ function login(){
 				if(valid){
 					document.getElementById('register').remove()
 					active_divs = [];
-					GameMenu(user_dic[login_user]);
+					GameMenu(login_user);
 				}
 				e.preventDefault();
 			});
