@@ -63,11 +63,13 @@ function GameMenu(login_user) {
 
 function moveGameMenu(){
     clearPage();
+    window.clearInterval(interval);
     document.getElementById('content').style.height = "680px";
     GameMenu(login_user);   
 }
 
 function moveWellcomeFromGame(){
+    window.clearInterval(interval);
     document.getElementById('content').style.height = "680px";
     BarHomeUpdate();
     moveWellcome();
