@@ -10,7 +10,7 @@ var login_user;
 var active_divs = []
 var last_position = 4;
 var total_balls = 50;
-var ball_5_point_color = "#000"
+var ball_5_point_color = "#000000"
 var ball_15_point_color = "#FF0000"
 var ball_25_point_color = "#FFFF00"
 var total_time = 90;
@@ -22,6 +22,9 @@ var right_key_code = "ArrowRight";
 var music_mode = true;
 var sound_mode = true;
 var lives;
+var ball_5_text_color;
+var ball_15_text_color;
+var ball_25_text_color
 
 function GameMenu(login_user) {
     this.login_user = login_user;
@@ -625,6 +628,16 @@ function AddAGameSettingInformation(content,value){
     return new_a;
 }
 
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
 function GameStart() {
     lives=3;
     var game_container_div = document.createElement("DIV");
@@ -686,10 +699,6 @@ function GameStart() {
     lives_li.appendChild(lives_input_instance);
     document.getElementById("indication_bar").appendChild(lives_li);
 
-
-
-
-
 	var game_div = document.createElement("DIV");
 	game_div.id = "game";
 
@@ -745,6 +754,23 @@ function GameStart() {
 	var food_remain_15 = total_balls*0.3;
 	var food_remain_25 = total_balls*0.1;
     var food_remain_5 = total_balls-food_remain_15-food_remain_25;
+    var ball_5_rgb_color = hexToRgb(ball_5_point_color);
+    var brightness = Math.round(parseInt(ball_5_rgb_color['r']) +
+          parseInt(ball_5_rgb_color['g']) +
+          parseInt(ball_5_rgb_color['b']));
+    ball_5_text_color = (brightness > 375) ? 'black' : 'white';
+
+    var ball_15_rgb_color = hexToRgb(ball_15_point_color);
+    var brightness = Math.round(parseInt(ball_15_rgb_color['r']) +
+          parseInt(ball_15_rgb_color['g']) +
+          parseInt(ball_15_rgb_color['b']));
+    ball_15_text_color = (brightness > 375) ? 'black' : 'white';
+
+    var ball_25_rgb_color = hexToRgb(ball_25_point_color);
+    var brightness = Math.round(parseInt(ball_25_rgb_color['r']) +
+          parseInt(ball_25_rgb_color['g']) +
+          parseInt(ball_25_rgb_color['b']));
+    ball_25_text_color = (brightness > 375) ? 'black' : 'white';
 
 	var pacman_remain = 1;
 	start_time = new Date();
@@ -903,6 +929,9 @@ function Draw() {
 				context.fillStyle = ball_5_point_color; //color
 				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
 				context.fill();
+                context.font = "9.5px Ariel";
+                context.fillStyle = ball_5_text_color;
+                context.fillText("5", center.x-3, center.y+3);
             
 			} else if (board[i][j] == 5) { // 15 score food 
 				context.beginPath();
@@ -910,19 +939,17 @@ function Draw() {
                 context.arc(center.x, center.y, 12.5, 0, 2 * Math.PI); // circle
 				context.fill();
                 context.font = "12px Ariel";
-                context.fillStyle="white";
-                // context.strokeStyle="white";
-                context.fillText("15", center.x-7, center.y+3);
-
-
-				
+                context.fillStyle = ball_15_text_color;
+                context.fillText("15", center.x-7, center.y+4);
             
 			} else if (board[i][j] == 6) { // 25 score food 
 				context.beginPath();
 				context.fillStyle = ball_25_point_color; //color
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-				// context.fillStyle = ball_25_point_color; //color
 				context.fill();
+                context.font = "14.5px Ariel";
+                context.fillStyle = ball_25_text_color;
+                context.fillText("25", center.x-7, center.y+4);
             
 			} else if (board[i][j] == 4) { //print Obstacles
 				context.beginPath();
