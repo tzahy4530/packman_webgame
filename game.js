@@ -10,7 +10,7 @@ var login_user;
 var active_divs = []
 var last_position = 4;
 var total_balls = 50;
-var ball_5_point_color = "#00000"
+var ball_5_point_color = "#000"
 var ball_15_point_color = "#FF0000"
 var ball_25_point_color = "#FFFF00"
 var total_time = 90;
@@ -21,6 +21,7 @@ var left_key_code = "ArrowLeft";
 var right_key_code = "ArrowRight";
 var music_mode = true;
 var sound_mode = true;
+var lives;
 
 function GameMenu(login_user) {
     this.login_user = login_user;
@@ -625,6 +626,7 @@ function AddAGameSettingInformation(content,value){
 }
 
 function GameStart() {
+    lives=3;
     var game_container_div = document.createElement("DIV");
     game_container_div.id = "game_container";
 
@@ -664,11 +666,29 @@ function GameStart() {
 	time_input_instance.style = "width: 30px;";
 	time_input_instance.type = "text";
 
-	var time_li = document.createElement("LI");
+    var time_li = document.createElement("LI");
 	
 	time_li.appendChild(time_label_instance);
 	time_li.appendChild(time_input_instance);
 	document.getElementById("indication_bar").appendChild(time_li)
+
+    var lives_label_instance = document.createElement("LABEL");
+	lives_label_instance.for = "lblLives";
+	lives_label_instance.textContent = "LIVES:";
+
+	var lives_input_instance = document.createElement("INPUT");
+	lives_input_instance.id = "lblLives";
+	lives_input_instance.style = "width: 30px;";
+	lives_input_instance.type = "text";
+
+    var lives_li=document.createElement("LI");
+    lives_li.appendChild(lives_label_instance);
+    lives_li.appendChild(lives_input_instance);
+    document.getElementById("indication_bar").appendChild(lives_li);
+
+
+
+
 
 	var game_div = document.createElement("DIV");
 	game_div.id = "game";
@@ -722,7 +742,10 @@ function GameStart() {
 	score = 0;
 	pac_color = "yellow";
 	var cnt = 100;
-	var food_remain = total_balls;
+	var food_remain_15 = total_balls*0.3;
+	var food_remain_25 = total_balls*0.1;
+    var food_remain_5 = total_balls-food_remain_15-food_remain_25;
+
 	var pacman_remain = 1;
 	start_time = new Date();
 	for (var i = 0; i < 10; i++) {
@@ -739,10 +762,22 @@ function GameStart() {
 				board[i][j] = 4;
 			} else {
 				var randomNum = Math.random();
-				if (randomNum <= (1.0 * food_remain) / cnt) {
-					food_remain--;
+				if (randomNum <= (1.0 * food_remain_5) / cnt) {
+                    var food_type=getFoodType(food_remain_5,food_remain_15,food_remain_25);
+                    if (food_type==1){
+					food_remain_5--;
 					board[i][j] = 1;
-				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
+                    }
+                    else if (food_type==2){
+                        food_remain_15--;
+                        board[i][j] = 5;
+                    }
+                    else if (food_type==3){
+                        food_remain_25--;
+                        board[i][j] = 6;
+                    }
+
+				} else if (randomNum < (1.0 * (pacman_remain + food_remain_5)) / cnt) {
 					shape.i = i;
 					shape.j = j;
 					pacman_remain--;
@@ -754,10 +789,20 @@ function GameStart() {
 			}
 		}
 	}
-	while (food_remain > 0) {
+	while (food_remain_5 > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
-		food_remain--;
+		food_remain_5--;
+	}
+	while (food_remain_15 > 0) {
+		var emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 5;
+		food_remain_15--;
+	}
+	while (food_remain_25 > 0) {
+		var emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 6;
+		food_remain_25--;
 	}
 	keysDown = {};
 	addEventListener(
@@ -774,7 +819,7 @@ function GameStart() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 100);
+	interval = setInterval(UpdatePosition, 150);
 }
 
 function findRandomEmptyCell(board) {
@@ -809,6 +854,7 @@ function GetKeyPressed() {
 function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
+    lblLives.value=lives;
 	lblTime.value = total_time - time_elapsed;
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
@@ -851,15 +897,37 @@ function Draw() {
                 }
 				context.fillStyle = "black"; //color
 				context.fill();
-			} else if (board[i][j] == 1) {
+            // print Food
+			} else if (board[i][j] == 1) { // 5 score food 
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-				context.fillStyle = "black"; //color
+				context.fillStyle = ball_5_point_color; //color
+				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
 				context.fill();
-			} else if (board[i][j] == 4) {
+            
+			} else if (board[i][j] == 5) { // 15 score food 
 				context.beginPath();
-				context.rect(center.x - 30, center.y - 30, 60, 60);
+				context.fillStyle = ball_15_point_color; //color
+                context.arc(center.x, center.y, 12.5, 0, 2 * Math.PI); // circle
+				context.fill();
+                context.font = "12px Ariel";
+                context.fillStyle="white";
+                // context.strokeStyle="white";
+                context.fillText("15", center.x-7, center.y+3);
+
+
+				
+            
+			} else if (board[i][j] == 6) { // 25 score food 
+				context.beginPath();
+				context.fillStyle = ball_25_point_color; //color
+				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				// context.fillStyle = ball_25_point_color; //color
+				context.fill();
+            
+			} else if (board[i][j] == 4) { //print Obstacles
+				context.beginPath();
 				context.fillStyle = "grey"; //color
+				context.rect(center.x - 30, center.y - 30, 60, 60);
 				context.fill();
 			}
 		}
@@ -890,15 +958,23 @@ function UpdatePosition() {
 		}
 	}
 	if (board[shape.i][shape.j] == 1) {
-		score++;
+		score+=5;
+	}
+	if (board[shape.i][shape.j] == 5) {
+		score+=15;
+	}
+	if (board[shape.i][shape.j] == 6) {
+		score+=25;
 	}
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
 	time_elapsed = Math.floor((currentTime - start_time) / 1000);
+
+    
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
-	if (score == 50) {
+	if (score == 500) {
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	} else {
@@ -906,3 +982,18 @@ function UpdatePosition() {
 	}
 }
 
+function getFoodType(food_remain_5,food_remain_15,food_remain_25){
+    var remains_food=new Array();
+    if (food_remain_5>0){
+        remains_food.push(1);
+    }
+    if (food_remain_15>0){
+        remains_food.push(2);
+    }
+    if (food_remain_25>0){
+        remains_food.push(3);
+    }
+    var food_type_number=Math.floor(Math.random()*remains_food.length);
+
+    return remains_food[food_type_number];
+}
