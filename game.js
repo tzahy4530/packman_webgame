@@ -1183,7 +1183,7 @@ function get_next_elusive_pacman_move(){
 function move_enemies(){
     for (i=0;i<num_monsters;i++){
         var move_options=new Array();
-        move_options.push([monster_array[i].i,monster_array[i].j]);
+        // move_options.push([monster_array[i].i,monster_array[i].j]);
         if (monster_array[i].i>0 && board[monster_array[i].i-1][monster_array[i].j]!=4){
             move_options.push([monster_array[i].i-1,monster_array[i].j]) ;  
         }
