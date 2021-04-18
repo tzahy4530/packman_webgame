@@ -784,8 +784,6 @@ function GameStart() {
           parseInt(ball_25_rgb_color['g']) +
           parseInt(ball_25_rgb_color['b']));
     ball_25_text_color = (brightness > 375) ? 'black' : 'white';
-    elusive_pacman_object.i=board.length/2
-    elusive_pacman_object.j=board.length/2
 	var pacman_remain = 1;
 	start_time = new Date();
 	for (var i = 0; i < 10; i++) {
@@ -844,6 +842,8 @@ function GameStart() {
 		board[emptyCell[0]][emptyCell[1]] = 6;
 		food_remain_25--;
 	}
+    elusive_pacman_object.i=board.length/2
+    elusive_pacman_object.j=board.length/2
     board[elusive_pacman_object.i][elusive_pacman_object.j]=7
 	keysDown = {};
 	addEventListener(
