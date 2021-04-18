@@ -12,7 +12,7 @@ var login_user;
 var active_divs = []
 var last_position = 4;
 var last_elusive_pacman_position = 4;
-var total_balls = 50;
+var total_balls = 75;
 var ball_5_point_color = "#000000"
 var ball_15_point_color = "#FF0000"
 var ball_25_point_color = "#FFFF00"
@@ -731,7 +731,7 @@ function GameStart() {
 	context = canvas_instance.getContext("2d");
 	context.canvas.id = "canvas";
 	context.canvas.height = 600;
-	context.canvas.width = 700;
+	context.canvas.width = 1550;
 	game_li.appendChild(canvas_instance);
 
     var game_setting_li = document.createElement("LI");
@@ -786,47 +786,34 @@ function GameStart() {
     ball_25_text_color = (brightness > 375) ? 'black' : 'white';
 	var pacman_remain = 1;
 	start_time = new Date();
-	for (var i = 0; i < 10; i++) {
+	for (var i = 0; i < 25; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 		for (var j = 0; j < 10; j++) {
 			if (
-				(i == 3 && j == 3) ||
-				(i == 3 && j == 4) ||
-				(i == 3 && j == 5) ||
-				(i == 6 && j == 1) ||
-				(i == 6 && j == 2)
+				(i == 2 && j == 3) || (i==10 && j==2) || (i==12 && j==4) || (i==14 && j==1) || (i==16 && j==7) || (i==20 && j==7) ||
+				(i == 3 && j == 4) || (i==11 && j==2) || (i==10 && j==7) || (i==14 && j==3) || (i==17 && j==6) || (i==20 && j==8) ||
+				(i == 4 && j == 5) || (i==12 && j==2) || (i==11 && j==7) || (i==14 && j==4) || (i==18 && j==5) || (i==24 && j==4) ||
+                (i == 5 && j == 6) || (i==0  && j==1) || (i==7  && j==8) || (i==14 && j==5) || (i==20 && j==0) || (i==23 && j==4) ||
+				(i == 6 && j == 1) || (i==10 && j==4) || (i==12 && j==7) || (i==14 && j==9) || (i==20 && j==1) || (i==2  && j==9) ||
+				(i == 6 && j == 2) || (i==11 && j==4) || (i==14 && j==0) || (i==15 && j==8) || (i==20 && j==2) || (i==2  && j==8)
 			) {
 				board[i][j] = 4;
-			} else {
-				var randomNum = Math.random();
-				if (randomNum <= (1.0 * food_remain_5) / cnt) {
-                    var food_type=getFoodType(food_remain_5,food_remain_15,food_remain_25);
-                    if (food_type==1){
-					food_remain_5--;
-					board[i][j] = 1;
-                    }
-                    else if (food_type==2){
-                        food_remain_15--;
-                        board[i][j] = 5;
-                    }
-                    else if (food_type==3){
-                        food_remain_25--;
-                        board[i][j] = 6;
-                    }
-
-				} else if (randomNum < (1.0 * (pacman_remain + food_remain_5)) / cnt) {
-					shape.i = i;
-					shape.j = j;
-					pacman_remain--;
-					board[i][j] = 2;
-				} else {
+			} 
+            else {
 					board[i][j] = 0;
 				}
-				cnt--;
-			}
-		}
-	}
+        }
+    }
+    elusive_pacman_object.i = Math.floor(board.length/2);
+    elusive_pacman_object.j = Math.floor(board.length/2);
+    board[elusive_pacman_object.i][elusive_pacman_object.j]=7;
+    var emptyCell = findRandomEmptyCell(board);
+    board[emptyCell[0]][emptyCell[1]] = 2;
+    food_remain_5--;
+    shape.i = emptyCell[0];
+    shape.j = emptyCell[1];
+    pacman_remain--;
 	while (food_remain_5 > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
@@ -842,9 +829,7 @@ function GameStart() {
 		board[emptyCell[0]][emptyCell[1]] = 6;
 		food_remain_25--;
 	}
-    elusive_pacman_object.i=board.length/2
-    elusive_pacman_object.j=board.length/2
-    board[elusive_pacman_object.i][elusive_pacman_object.j]=7
+
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -864,10 +849,10 @@ function GameStart() {
 }
 
 function findRandomEmptyCell(board) {
-	var i = Math.floor(Math.random() * 9 + 1);
+	var i = Math.floor(Math.random() * 24 + 1);
 	var j = Math.floor(Math.random() * 9 + 1);
 	while (board[i][j] != 0) {
-		i = Math.floor(Math.random() * 9 + 1);
+		i = Math.floor(Math.random() * 24 + 1);
 		j = Math.floor(Math.random() * 9 + 1);
 	}
 	return [i, j];
@@ -897,7 +882,7 @@ function Draw() {
 	lblScore.value = score;
     lblLives.value=lives;
 	lblTime.value = total_time - time_elapsed;
-	for (var i = 0; i < 10; i++) {
+	for (var i = 0; i < 25; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();
 			center.x = i * 60 + 30;
@@ -1031,7 +1016,7 @@ function UpdatePosition() {
 		}
 	}
 	if (x == 4) {
-		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+		if (shape.i < 24 && board[shape.i + 1][shape.j] != 4) {
 			shape.i++;
 		}
 	}
