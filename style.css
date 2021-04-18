@@ -295,7 +295,6 @@ body {
 #game_ul li{
     display: inline-block;
     vertical-align:top;
-    width: auto;
 }
 
 #game_ul li div a{
@@ -306,9 +305,18 @@ body {
 
 .colored_block{
     width: 100%;
+    list-style-type: none;
+    align-items: left;
+    padding-inline-start: 0%;
+}
+
+.colored_block li{
+    padding-right: 5px;
+    display:inline-block;
 }
 
 .colored_block_canvas{
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
+

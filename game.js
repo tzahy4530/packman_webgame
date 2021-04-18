@@ -596,24 +596,24 @@ function GameSetting(){
 }
 
 function AddColoredBlock(content,value){
-    var colored_block_table = document.createElement("TABLE");
-    colored_block_table.className = "colored_block";
+    var colored_block_ul = document.createElement("UL");
+    colored_block_ul.className = "colored_block";
 
-    var colored_content_tr = document.createElement("TR");
-    colored_block_table.appendChild(colored_content_tr);
+    var colored_content_li = document.createElement("LI");
+    colored_block_ul.appendChild(colored_content_li);
 
-    colored_content_tr.appendChild(AddAGameSettingInformation(content,""));
+    colored_content_li.appendChild(AddAGameSettingInformation(content,""));
 
-    var colored_block_tr = document.createElement("TR");
-    colored_block_table.appendChild(colored_block_tr);
+    var colored_block_li = document.createElement("LI");
+    colored_block_ul.appendChild(colored_block_li);
 
     var colored_block = document.createElement("CANVAS");
     colored_block.className = "colored_block_canvas"
     var ctx = colored_block.getContext("2d");
     ctx.fillStyle = value;
-    ctx.fillRect(0,0,600,600);
-    colored_block_tr.appendChild(colored_block);
-    return colored_block_table; 
+    ctx.fillRect(0,0,400,400);
+    colored_block_li.appendChild(colored_block);
+    return colored_block_ul; 
 }
 function AddAGameSettingInformation(content,value){
     var new_a = document.createElement("A");
@@ -702,11 +702,8 @@ function GameStart() {
     game_setting_div.appendChild(AddAGameSettingInformation("BALLS NUMBER: ",total_balls));
     game_setting_div.appendChild(document.createElement("BR"));
     game_setting_div.appendChild(AddColoredBlock("5 POINTS BALLS COLOR: ",ball_5_point_color));
-    game_setting_div.appendChild(document.createElement("BR"));
-    game_setting_div.appendChild(AddAGameSettingInformation("15 POINTS BALLS COLOR: ",""));
-    game_setting_div.appendChild(document.createElement("BR"));
-    game_setting_div.appendChild(AddAGameSettingInformation("25 POINTS BALLS COLOR: ",""));
-    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddColoredBlock("15 POINTS BALLS COLOR: ",ball_15_point_color));
+    game_setting_div.appendChild(AddColoredBlock("25 POINTS BALLS COLOR: ",ball_25_point_color));
     game_setting_div.appendChild(AddAGameSettingInformation("TIME REMAINS: ",total_time));
     game_setting_div.appendChild(document.createElement("BR"));
     game_setting_div.appendChild(AddAGameSettingInformation("NUM OF MONSTERS: ",num_monsters));
