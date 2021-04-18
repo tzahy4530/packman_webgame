@@ -1,5 +1,7 @@
+var elusive_pacman_alive=true;
 var context;
 var shape = new Object();
+var elusive_pacman_object=new Object()
 var board;
 var score;
 var pac_color;
@@ -9,6 +11,7 @@ var interval;
 var login_user;
 var active_divs = []
 var last_position = 4;
+var last_elusive_pacman_position = 4;
 var total_balls = 50;
 var ball_5_point_color = "#000000"
 var ball_15_point_color = "#FF0000"
@@ -24,7 +27,8 @@ var sound_mode = true;
 var lives;
 var ball_5_text_color;
 var ball_15_text_color;
-var ball_25_text_color
+var ball_25_text_color;
+
 
 function GameMenu(login_user) {
     this.login_user = login_user;
@@ -639,6 +643,15 @@ function hexToRgb(hex) {
   }
 
 function GameStart() {
+    //1-5 points food
+    //2-pacman place
+    //3-
+    //4-wall 
+    //5-15 points food
+    //6- 25 point food 
+    //7- elusive_pacman
+   elusive_pacman_alive=true;
+
     lives=3;
     var game_container_div = document.createElement("DIV");
     game_container_div.id = "game_container";
@@ -751,8 +764,8 @@ function GameStart() {
 	score = 0;
 	pac_color = "yellow";
 	var cnt = 100;
-	var food_remain_15 = total_balls*0.3;
-	var food_remain_25 = total_balls*0.1;
+	var food_remain_15 = Math.floor(total_balls*0.3);
+	var food_remain_25 = Math.floor(total_balls*0.1);
     var food_remain_5 = total_balls-food_remain_15-food_remain_25;
     var ball_5_rgb_color = hexToRgb(ball_5_point_color);
     var brightness = Math.round(parseInt(ball_5_rgb_color['r']) +
@@ -771,7 +784,8 @@ function GameStart() {
           parseInt(ball_25_rgb_color['g']) +
           parseInt(ball_25_rgb_color['b']));
     ball_25_text_color = (brightness > 375) ? 'black' : 'white';
-
+    elusive_pacman_object.i=board.length/2
+    elusive_pacman_object.j=board.length/2
 	var pacman_remain = 1;
 	start_time = new Date();
 	for (var i = 0; i < 10; i++) {
@@ -830,6 +844,7 @@ function GameStart() {
 		board[emptyCell[0]][emptyCell[1]] = 6;
 		food_remain_25--;
 	}
+    board[elusive_pacman_object.i][elusive_pacman_object.j]=7
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -924,6 +939,42 @@ function Draw() {
 				context.fillStyle = "black"; //color
 				context.fill();
             // print Food
+            } else if(i==elusive_pacman_object.i & j==elusive_pacman_object.j){
+                context.beginPath();
+                //print the shape
+                if(last_elusive_pacman_position == 1){ // up
+				    context.arc(center.x, center.y, 10, 1.65 * Math.PI, 1.35 * Math.PI); // half circle
+                }
+                else if(last_elusive_pacman_position == 2) {// down
+                    context.arc(center.x, center.y, 10, 0.65 * Math.PI, -1.65 * Math.PI);
+                }
+
+                else if(last_elusive_pacman_position == 3){ // left
+                    context.arc(center.x, center.y, 10, 1.15 * Math.PI, -1.15 * Math.PI);
+                }
+                else if (last_elusive_pacman_position == 4){ // right
+                    context.arc(center.x, center.y, 10, 0.15 * Math.PI, 1.85 * Math.PI);
+                }
+				context.lineTo(center.x, center.y);
+				context.fillStyle = "red"; // color
+				context.fill();
+				context.beginPath();
+                //print the eye
+                if(last_elusive_pacman_position == 1){ // up
+				    context.arc(center.x + 5, center.y - 3, 2, 0, 2 * Math.PI); 
+                }
+                else if(last_elusive_pacman_position == 2) {// down
+                    context.arc(center.x + 5, center.y + 3, 2, 0, 2 * Math.PI);
+                }
+
+                else if(last_elusive_pacman_position == 3){ // left
+                    context.arc(center.x - 3, center.y - 5, 2, 0, 2 * Math.PI);
+                }
+                else if (last_elusive_pacman_position == 4){ // right
+                    context.arc(center.x + 3, center.y - 5, 2, 0, 2 * Math.PI);
+                }
+				context.fillStyle = "green"; //color
+				context.fill();
 			} else if (board[i][j] == 1) { // 5 score food 
 				context.beginPath();
 				context.fillStyle = ball_5_point_color; //color
@@ -984,6 +1035,14 @@ function UpdatePosition() {
 			shape.i++;
 		}
 	}
+    //eat elusive pacman position
+    if (shape.i==elusive_pacman_object.i & shape.j==elusive_pacman_object.j){
+        score+=50;
+        elusive_pacman_alive=false;
+        elusive_pacman_object.j=null;
+        elusive_pacman_object.i=null;
+
+    }
 	if (board[shape.i][shape.j] == 1) {
 		score+=5;
 	}
@@ -994,6 +1053,30 @@ function UpdatePosition() {
 		score+=25;
 	}
 	board[shape.i][shape.j] = 2;
+    if (elusive_pacman_alive){
+        //update elusive pacman position
+        var x=move_elusive_pacman();
+        if (x == 1) {
+            if (elusive_pacman_object.j > 0 && board[elusive_pacman_object.i][elusive_pacman_object.j - 1] != 4) {
+                elusive_pacman_object.j--;
+            }
+        }
+        if (x == 2) {
+            if (elusive_pacman_object.j < 9 && board[elusive_pacman_object.i][elusive_pacman_object.j + 1] != 4) {
+                elusive_pacman_object.j++;
+            }
+        }
+        if (x == 3) {
+            if (elusive_pacman_object.i > 0 && board[elusive_pacman_object.i - 1][elusive_pacman_object.j] != 4) {
+                elusive_pacman_object.i--;
+            }
+        }
+        if (x == 4) {
+            if (elusive_pacman_object.i < 9 && board[elusive_pacman_object.i + 1][elusive_pacman_object.j] != 4) {
+                elusive_pacman_object.i++;
+            }
+        }
+    }
 	var currentTime = new Date();
 	time_elapsed = Math.floor((currentTime - start_time) / 1000);
 
@@ -1001,7 +1084,7 @@ function UpdatePosition() {
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
-	if (score == 500) {
+	if (score >= 500) {
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	} else {
@@ -1023,4 +1106,21 @@ function getFoodType(food_remain_5,food_remain_15,food_remain_25){
     var food_type_number=Math.floor(Math.random()*remains_food.length);
 
     return remains_food[food_type_number];
+}
+function move_elusive_pacman(){
+    var next_move=Math.floor(Math.random()*4);
+    if (next_move==0) {
+        last_elusive_pacman_position = 1;
+		return 1;
+	}
+	if (next_move==1) {
+        last_elusive_pacman_position = 2;
+		return 2;
+	}
+	if (next_move==2) {
+        last_elusive_pacman_position = 3;
+		return 3;
+	}
+    last_elusive_pacman_position = 4;
+    return 4;
 }
