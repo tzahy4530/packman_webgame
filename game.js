@@ -595,35 +595,49 @@ function GameSetting(){
     back_button_li.appendChild(back_button);
 }
 
+function AddColoredBlock(content,value){
+    var colored_block_table = document.createElement("TABLE");
+    colored_block_table.className = "colored_block";
+
+    var colored_content_tr = document.createElement("TR");
+    colored_block_table.appendChild(colored_content_tr);
+
+    colored_content_tr.appendChild(AddAGameSettingInformation(content,""));
+
+    var colored_block_tr = document.createElement("TR");
+    colored_block_table.appendChild(colored_block_tr);
+
+    var colored_block = document.createElement("CANVAS");
+    colored_block.className = "colored_block_canvas"
+    var ctx = colored_block.getContext("2d");
+    ctx.fillStyle = value;
+    ctx.fillRect(0,0,600,600);
+    colored_block_tr.appendChild(colored_block);
+    return colored_block_table; 
+}
+function AddAGameSettingInformation(content,value){
+    var new_a = document.createElement("A");
+    value = String(value);
+    new_a.innerHTML = content + value;
+    return new_a;
+}
 
 function GameStart() {
+    var game_container_div = document.createElement("DIV");
+    game_container_div.id = "game_container";
 
+    document.getElementById('content').appendChild(game_container_div)
+    //indication_bar
 	var indication_div = document.createElement("DIV");
 	indication_div.id = "indication";
 
-	document.getElementById('content').appendChild(indication_div)
+	game_container_div.appendChild(indication_div)
 
 	var indication_bar_ul = document.createElement("UL");
 	indication_bar_ul.id = "indication_bar";
-
 	indication_div.appendChild(indication_bar_ul);
 
-	var game_div = document.createElement("DIV");
-	game_div.id = "game";
-
-	document.getElementById('content').appendChild(game_div);
-
-	active_divs.push(indication_div);
-	active_divs.push(game_div);
-
-	var canvas_instance = document.createElement("CANVAS");
-	context = canvas_instance.getContext("2d");
-	context.canvas.id = "canvas";
-	context.canvas.height = 600;
-	context.canvas.width = 1200;
-	document.getElementById("game").appendChild(canvas_instance);
-
-	var score_li = document.createElement("LI");
+    var score_li = document.createElement("LI");
 	
 	var score_label_instance = document.createElement("LABEL");
 	score_label_instance.for = "lblScore";
@@ -653,6 +667,57 @@ function GameStart() {
 	time_li.appendChild(time_label_instance);
 	time_li.appendChild(time_input_instance);
 	document.getElementById("indication_bar").appendChild(time_li)
+
+	var game_div = document.createElement("DIV");
+	game_div.id = "game";
+
+	game_container_div.appendChild(game_div);
+
+	active_divs.push(game_container_div);
+
+    //game
+    var game_ul = document.createElement("UL");
+    game_ul.id = "game_ul"
+    game_div.appendChild(game_ul);
+
+    var game_li = document.createElement("LI");
+    game_ul.appendChild(game_li);
+
+	var canvas_instance = document.createElement("CANVAS");
+	context = canvas_instance.getContext("2d");
+	context.canvas.id = "canvas";
+	context.canvas.height = 600;
+	context.canvas.width = 700;
+	game_li.appendChild(canvas_instance);
+
+    var game_setting_li = document.createElement("LI");
+    game_setting_li.id = "ingame_setting";
+    game_ul.appendChild(game_setting_li);
+
+    var game_setting_div = document.createElement("DIV");
+    game_setting_li.appendChild(game_setting_div);
+    //adding game setting preview
+    game_setting_div.appendChild(AddAGameSettingInformation("Setting:",""));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("BALLS NUMBER: ",total_balls));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddColoredBlock("5 POINTS BALLS COLOR: ",ball_5_point_color));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("15 POINTS BALLS COLOR: ",""));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("25 POINTS BALLS COLOR: ",""));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("TIME REMAINS: ",total_time));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("NUM OF MONSTERS: ",num_monsters));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("UP-KEY: ",up_key_code));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("DOWN-KEY: ",down_key_code));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("LEFT-KEY: ",left_key_code));
+    game_setting_div.appendChild(document.createElement("BR"));
+    game_setting_div.appendChild(AddAGameSettingInformation("RIGHT-KEY: ",right_key_code));
 
 	board = new Array();
 	score = 0;

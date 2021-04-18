@@ -66,7 +66,7 @@ a.menu_button:hover{
 }
 
 #footer_bar{
-    width: 100%;
+    max-width: 100%;
     height: 25px;
     background: url(menu_background.jpg) repeat-x;
 }
@@ -204,7 +204,7 @@ button:after, #register_form input[type=submit]::after {
 }
 
 body {
-    max-width: 95%;
+    max-width: 100%;
 }
 
 #setting_div {
@@ -286,4 +286,29 @@ body {
 
 .setting_header table tr td input[type=text] {
     width: 15%;
+}
+
+#game_ul {
+    list-style-type: none;
+}
+
+#game_ul li{
+    display: inline-block;
+    vertical-align:top;
+    width: auto;
+}
+
+#game_ul li div a{
+    color: white;
+    font-size: 10px;
+    padding-bottom: 5px;
+}
+
+.colored_block{
+    width: 100%;
+}
+
+.colored_block_canvas{
+    width: 18px;
+    height: 18px;
 }
