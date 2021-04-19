@@ -107,7 +107,7 @@ a.footerButton:hover{
     padding-top: 2.5%;
 }
 
-button, #register_form input[type=submit] {
+button{
     width: 220px;
     height: 50px;
     border: none;
@@ -122,7 +122,7 @@ button, #register_form input[type=submit] {
     border-color:#6f6d8a ;
 }
 
-button:before, #register_form input[type=submit]::before {
+button:before{
     content: '';
     background: linear-gradient(45deg, #7a00ff, #7064f4, #002bff, #7a00ff, #7064f4, #002bff, #7a00ff, #7064f4, #7a00ff);
     position: absolute;
@@ -139,19 +139,20 @@ button:before, #register_form input[type=submit]::before {
     border-radius: 15px;
 }
 
-button:active, #register_form input[type=submit]:active {
+button:active{
     color: #000
 }
 
-button:active:after, #register_form input[type=submit]:active::after {
+button:active:after,{
     background: transparent;
 }
 
-button:hover:before, #register_form input[type=submit]:hover::before {
+button:hover:before{
     opacity: 1;
 }
 
-button:after, #register_form input[type=submit]::after {
+
+button:after {
     z-index: -1;
     content: '';
     position: absolute;
@@ -171,9 +172,10 @@ button:after, #register_form input[type=submit]::after {
 
 #register{
     margin-top: 18px;
+    text-align: center;
 }
 
-#register_form input[type=text],#register_form input[type=password] ,select,#register_form input[type=date] {
+#register_form_ul input[type=text],#register_form_ul input[type=password] ,select, #register_form_ul input[type=date] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -183,10 +185,6 @@ button:after, #register_form input[type=submit]::after {
     box-sizing: border-box;
     max-width: 250px;
   }
-
-#register_form{
-    text-align: center;
-}
   
 #register_form_ul {
     font-size: 20px;
@@ -318,5 +316,177 @@ body {
 .colored_block_canvas{
     width: 16px;
     height: 16px;
+}
+
+#win_window{
+    background: url('winner-background.jpg');
+    background-repeat: no-repeat; 
+    background-size: 400px 300px;
+    box-sizing: border-box;
+    border-style: solid;
+    position: absolute;
+    justify-content: space-between;
+    width: 400px;
+    height: 300px;
+    top: 350px;
+    left: 675px;
+}
+
+#lose_window{
+    background: url('pacman-ghosts-orange.png');
+    background-repeat: no-repeat; 
+    background-size: 250px 150px;
+    background-position: center;
+    background-color: black;
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: red;
+    position: absolute;
+    justify-content: space-between;
+    width: 400px;
+    height: 300px;
+    top: 350px;
+    left: 675px;
+}
+
+#win_window a{
+    color: white;
+    font-size: 20px;
+    margin-left: 35%;
+}
+
+#lose_window a{
+    color: red !important;
+    font-size: 20px !important;
+    margin-left: 35% !important;
+}
+
+#win_window ul, #lose_window ul{
+    list-style-type: none;
+}
+
+.win_li{
+    padding-bottom: 165px;
+}
+
+#win_window button{
+    color:black;
+}
+
+.win_button{
+    margin-left: 32.5px;
+    width: 120px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    background: #ebe1c6;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    border-style: double;
+    border-color:#242427 ;
+}
+
+.win_button:before {
+    content: '';
+    background: linear-gradient(45deg, #ffffff, #ebe1c6, #ad7649, #ffffff, #ebe1c6, #ad7649, #ffffff, #ebe1c6, #ad7649);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 10s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 15px;
+}
+
+.win_button:active{
+    color: #000
+}
+
+.win_button:active:after{
+    background: transparent;
+}
+
+.win_button:hover:before{
+    opacity: 1;
+}
+
+
+.win_button:after{
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ebe1c6;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+
+.lose_button{
+    margin-left: 32.5px;
+    width: 120px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: rgb(255, 0, 0);
+    background: #000000;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    border-style: double;
+    border-color:#242427 ;
+}
+
+.lose_button:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff6600, #ff5882, #000000, #ff0000, #ff6600, #ff5882, #000000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 10s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 15px;
+}
+
+.lose_button:active{
+    color: #000
+}
+
+.lose_button:active:after{
+    background: transparent;
+}
+
+.lose_button:hover:before{
+    opacity: 1;
+}
+
+
+.lose_button:after{
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
 }
 

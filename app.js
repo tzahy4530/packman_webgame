@@ -2,7 +2,6 @@ var user_dic = {'k':['k','tester','test@bgu.ac.il','1990-01-01']};
 var active_divs = []
 
 $(document).ready(function() {
-	// context = canvas.getContext("2d");
 	wellcome();
 });
 
@@ -28,22 +27,32 @@ function moveLogin(){
 	login();
 }
 
+ function validLogin(username,password) {
+	var username = $(username).val();
+	var password = $(password).val();
+	if(!(username in user_dic)){
+		alert("username or password incorrect.");
+		return false;
+	}
+	if(user_dic[username][0] != password){
+		alert("username or password incorrect.");
+		return false;
+	}
+	login_user = username;
+	alert("Wellcome " + user_dic[username][1] + ".");
+	return true
+}
+
 
 function login(){
 	var login_div = document.createElement("DIV");
 	login_div.id = "register";
 	active_divs.push(login_div)
 
-	var login_form = document.createElement("FORM");
-	login_form.id = "register_form";
-	login_form.action = "#";
-	login_form.method="post"
-
 	var login_form_ul = document.createElement("UL");
 	login_form_ul.id= "register_form_ul";
 
-	login_form.appendChild(login_form_ul);
-	login_div.appendChild(login_form);
+	login_div.appendChild(login_form_ul);
 
 	document.getElementById("content").appendChild(login_div);
 
@@ -67,9 +76,17 @@ function login(){
 	password_input.placeholder = "Your password.."
 	password_input.type = "password";
 
-	var confirm = document.createElement("INPUT");
-	confirm.type = "submit";
-	confirm.value = "Confirm"
+	var confirm = document.createElement("button");
+	confirm.innerHTML = "Confirm";
+	confirm.addEventListener("click",function(){
+		var valid = validLogin('#username','#password');
+		if(valid){
+			clearPage();
+			active_divs = [];
+			GameMenu(login_user);
+		}
+		return false
+	})
 
 	var username_li = document.createElement("LI");
 	username_li.appendChild(username_label);
@@ -97,55 +114,68 @@ function login(){
 	});
 	back_button_li.appendChild(back_button);
 	document.getElementById("register_form_ul").appendChild(back_button_li);
-	
-	var Login = {
-		
-		login: function(username,password) {
-			var username = $(username).val();
-			var password = $(password).val();
-			if(!(username in user_dic)){
-				alert("username or password incorrect.");
-				return false;
-			}
-			if(user_dic[username][0] != password){
-				alert("username or password incorrect.");
-				return false;
-			}
-			login_user = username;
-			alert("Wellcome " + user_dic[username][1] + ".");
-			return true
-		},
-		init: function() {
-			$('#register_form').submit(function(e) {
-				var valid = Login.login('#username','#password');
-				if(valid){
-					document.getElementById('register').remove()
-					active_divs = [];
-					GameMenu(login_user);
-				}
-				e.preventDefault();
-			});
-		}
-	};
-	Login.init();
 }
 
+
+function registerValidation(username,password,fullname,email,birthday) {
+	rules = {
+		password_rule1: /[a-zA-Z]/,
+		password_rule2: /\d/,
+		password_length: 6,
+		fullname: /\d/
+	};
+	var username = $(username).val();
+	var password = $(password).val();
+	var fullname = $(fullname).val();
+	var email = $(email).val();
+	var birthday = $(birthday).val();
+	
+	if (username == '' || password == '' || fullname == '' || email == '' || birthday == ''){
+		alert("All field are required.");
+		return false;
+	} 
+
+	if (!(this.rules.password_rule1.test(password) && this.rules.password_rule2.test(password))) {
+		alert("Password should include at least 1 char and 1 digit.")
+		return false;
+	}
+	if(password.length < this.rules.password_length) {
+		alert("Password should include at least 6 chars.")
+		return false;
+	}
+	if(this.rules.fullname.test(fullname)){
+		alert("Fullname shouldn't include numbers.")
+		return false
+	}
+
+	if(!(email.includes("@") && email.includes("."))) {
+		alert('Invalid email');
+		return false
+	}
+	return true
+}
+
+function addUser(username,password,fullname,email,birthday){
+	var username = $(username).val();
+	var password = $(password).val();
+	var fullname = $(fullname).val();
+	var email = $(email).val();
+	var birthday = $(birthday).val();
+
+	user_dic[username] = [password, fullname, email, birthday];
+	alert("Registration succeeded.");
+	return null;
+}
 
 function register(){
 	var register_div = document.createElement("DIV");
 	register_div.id = "register";
 	active_divs.push(register_div);
 
-	var register_form = document.createElement("FORM");
-	register_form.id = "register_form";
-	register_form.action = "#";
-	register_form.method="post"
-
 	var register_form_ul = document.createElement("UL");
 	register_form_ul.id= "register_form_ul";
 
-	register_form.appendChild(register_form_ul);
-	register_div.appendChild(register_form);
+	register_div.appendChild(register_form_ul);
 
 	document.getElementById("content").appendChild(register_div);
 
@@ -198,9 +228,16 @@ function register(){
 	birthday_input.name = "birthday";
 	birthday_input.type = "date";
 
-	var confirm = document.createElement("INPUT");
-	confirm.type = "submit";
-	confirm.value = "Confirm"
+	var confirm = document.createElement("button");
+	confirm.innerHTML = "Confirm";
+	confirm.addEventListener("click",function(){
+		var valid = registerValidation('#username','#password','#fullname','#email','#birthday');
+		if (valid){
+			addUser('#username','#password','#fullname','#email','#birthday');
+			clearPage();
+			wellcome();
+		}
+	})
 
 	var username_li = document.createElement("LI");
 	username_li.appendChild(username_label);
@@ -244,73 +281,6 @@ function register(){
 
 	back_button_li.appendChild(back_button);
 	document.getElementById("register_form_ul").appendChild(back_button_li);
-	
-	var Registrator = {
-		rules: {
-			password_rule1: /[a-zA-Z]/,
-			password_rule2: /\d/,
-			password_length: 6,
-			fullname: /\d/
-		},
-
-		register: function(username,password,fullname,email,birthday){
-			var username = $(username).val();
-			var password = $(password).val();
-			var fullname = $(fullname).val();
-			var email = $(email).val();
-			var birthday = $(birthday).val();
-
-			user_dic[username] = [password, fullname, email, birthday];
-			alert("Registration succeeded.");
-			return null;
-		},
-
-		validate: function(username,password,fullname,email,birthday) {
-			var username = $(username).val();
-			var password = $(password).val();
-			var fullname = $(fullname).val();
-			var email = $(email).val();
-			var birthday = $(birthday).val();
-			
-			if (username == '' || password == '' || fullname == '' || email == '' || birthday == ''){
-				alert("All field are required.");
-				return false;
-			} 
-
-			if (!(this.rules.password_rule1.test(password) && this.rules.password_rule2.test(password))) {
-				alert("Password should include at least 1 char and 1 digit.")
-				return false;
-			}
-			if(password.length < this.rules.password_length) {
-				alert("Password should include at least 6 chars.")
-				return false;
-			}
-			if(this.rules.fullname.test(fullname)){
-				alert("Fullname shouldn't include numbers.")
-				return false
-			}
-
-			if(!(email.includes("@") || email.includes("."))) {
-				alert('Invalid email');
-				return false
-			}
-			return true
-		},
-		init: function() {
-			$('#register_form').submit(function(e) {
-				var valid = Registrator.validate('#username','#password','#fullname','#email','#birthday');
-				if (valid){
-					Registrator.register('#username','#password','#fullname','#email','#birthday');
-					document.getElementById("register").remove();
-					wellcome();
-				}
-				e.preventDefault();
-			});
-		}
-	};
-	
-	Registrator.init();
-
 }
 
 function wellcome(){

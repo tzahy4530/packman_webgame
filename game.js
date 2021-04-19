@@ -24,9 +24,15 @@ var up_key_code = "ArrowUp";
 var down_key_code = "ArrowDown";
 var left_key_code = "ArrowLeft";
 var right_key_code = "ArrowRight";
+var music = new Audio('game-music.mp3');
+var eat_sound = new Audio("eating-sound.mp3");
+var monster_kill_sound = new Audio("monster-kill.mp3");
+var win_game_sound = new Audio("win-game.mp3");
+var heart_image = new Image();
 var music_mode = true;
 var sound_mode = true;
 var lives;
+var addition_lives;
 var ball_5_text_color;
 var ball_15_text_color;
 var ball_25_text_color;
@@ -73,6 +79,10 @@ function GameMenu(login_user) {
 }
 
 function moveGameMenu(){
+    if(music_mode){
+        music.pause();
+        music.currentTime = 0;
+    }
     clearPage();
     window.clearInterval(interval);
     window.clearInterval(enemy_interval);
@@ -81,6 +91,10 @@ function moveGameMenu(){
 }
 
 function moveWellcomeFromGame(){
+    if(music_mode){
+        music.pause();
+        music.currentTime = 0;
+    }
     window.clearInterval(interval);
     window.clearInterval(enemy_interval);
     document.getElementById('content').style.height = "680px";
@@ -647,6 +661,137 @@ function hexToRgb(hex) {
     } : null;
   }
 
+function showWinWindow(){
+    var win_window_div = document.createElement("DIV");
+    win_window_div.id = "win_window";
+    document.getElementById("game_container").appendChild(win_window_div);
+
+    let win_window_ul = document.createElement("UL");
+    win_window_div.appendChild(win_window_ul);
+
+    let win_text_li = document.createElement("LI");
+    win_text_li.className = "win_li"
+    win_window_ul.appendChild(win_text_li);
+
+    let win_text = document.createElement("A");
+    win_text.innerHTML = "Winner!!!"
+    win_text_li.appendChild(win_text);
+    win_text_li.appendChild(document.createElement("BR"));
+
+    let win_score_text = document.createElement("A");
+    win_score_text.innerHTML = "Score: " + score;
+    win_text_li.appendChild(win_score_text);
+
+    let win_buttons_li = document.createElement("LI");
+    win_buttons_li.className = "win_li"
+    win_window_ul.appendChild(win_buttons_li);
+
+    let win_back_button = document.createElement("button");
+    win_back_button.innerHTML = "Back"
+    win_back_button.className = "win_button"
+    win_back_button.addEventListener("click", function(){
+        clearPage();
+        moveGameMenu(login_user);
+    })
+    win_buttons_li.appendChild(win_back_button);
+
+    let play_again_button = document.createElement("button");
+    play_again_button.innerHTML = "Play Again";
+    play_again_button.className = "win_button";
+    play_again_button.addEventListener("click",function(){
+        clearPage();
+        GameStart();
+    })
+    win_buttons_li.appendChild(play_again_button);
+}
+
+
+function showTiredPackmanWindow(){
+    var tired_window_div = document.createElement("DIV");
+    tired_window_div.id = "win_window";
+    tired_window_div.style = "background: url('tired-packman.jpg'); background-repeat: no-repeat; background-size: 400px 300px;"
+    document.getElementById("game_container").appendChild(tired_window_div);
+  
+    let tired_window_ul = document.createElement("UL");
+    tired_window_div.appendChild(tired_window_ul);
+  
+    let tired_text_li = document.createElement("LI");
+    tired_text_li.className = "win_li"
+    tired_window_ul.appendChild(tired_text_li);
+  
+    let tired_text = document.createElement("A");
+    tired_text.innerHTML = "You are better than " + score + " points!"
+    tired_text.style = "color: black; font-size: 20px; margin-left: 15%;"
+    tired_text_li.appendChild(tired_text);
+  
+    let tired_buttons_li = document.createElement("LI");
+    tired_buttons_li.className = "win_li"
+    tired_window_ul.appendChild(tired_buttons_li);
+  
+    let tired_back_button = document.createElement("button");
+    tired_back_button.innerHTML = "Back"
+    tired_back_button.className = "win_button"
+    tired_back_button.addEventListener("click", function(){
+        clearPage();
+        moveGameMenu(login_user);
+    })
+    tired_buttons_li.appendChild(tired_back_button);
+  
+    let play_again_button = document.createElement("button");
+    play_again_button.innerHTML = "Play Again";
+    play_again_button.className = "win_button";
+    play_again_button.addEventListener("click",function(){
+        clearPage();
+        GameStart();
+    })
+    tired_buttons_li.appendChild(play_again_button);
+}
+  
+
+function showLoseWindow(){
+    var lose_window_div = document.createElement("DIV");
+    lose_window_div.id = "lose_window";
+    document.getElementById("game_container").appendChild(lose_window_div);
+
+    let lose_window_ul = document.createElement("UL");
+    lose_window_div.appendChild(lose_window_ul);
+
+    let lose_text_li = document.createElement("LI");
+    lose_text_li.className = "win_li"
+    lose_window_ul.appendChild(lose_text_li);
+
+    let lose_text = document.createElement("A");
+    lose_text.innerHTML = "Loser!!!"
+    lose_text_li.appendChild(lose_text);
+    lose_text_li.appendChild(document.createElement("BR"));
+
+    let lose_score_text = document.createElement("A");
+    lose_score_text.innerHTML = "Score: " + score;
+    lose_text_li.appendChild(lose_score_text);
+
+    let lose_buttons_li = document.createElement("LI");
+    lose_buttons_li.className = "win_li"
+    lose_window_ul.appendChild(lose_buttons_li);
+
+    let lose_back_button = document.createElement("button");
+    lose_back_button.innerHTML = "Back"
+    lose_back_button.className = "lose_button"
+    lose_back_button.addEventListener("click", function(){
+        clearPage();
+        moveGameMenu(login_user);
+    })
+    lose_buttons_li.appendChild(lose_back_button);
+
+    let play_again_button = document.createElement("button");
+    play_again_button.innerHTML = "Play Again";
+    play_again_button.className = "lose_button";
+    play_again_button.addEventListener("click",function(){
+        clearPage();
+        GameStart();
+    })
+    lose_buttons_li.appendChild(play_again_button);
+}
+
 function GameStart() {
     //1-5 points food
     //2-pacman place
@@ -654,11 +799,17 @@ function GameStart() {
     //4-wall 
     //5-15 points food
     //6- 25 point food 
+    music.volume = 0.5;
+    heart_image.src = "heart.png"
+    if (music_mode){
+        music.play();
+    }
     monster_array=new Array();
     elusive_pacman_alive=true;
     for (i=0;i<num_monsters;i++){
-        var new_monster=new Object()
-        new_monster.image=new Image()
+        var new_monster=new Object();
+        new_monster.image=new Image();
+        new_monster.boss=false;
         if (i==0){
             new_monster.image.src="pacman-ghosts-cyan.png"
             new_monster.i=0;
@@ -668,6 +819,7 @@ function GameStart() {
             new_monster.image.src="pacman-ghosts-orange.png"
             new_monster.i=0;
             new_monster.j=9;
+            new_monster.boss = true;
         } else if (i==2){
             new_monster.image.src="pacman-ghosts-ping.png"
             new_monster.i=24;
@@ -678,6 +830,15 @@ function GameStart() {
             new_monster.j=9;
         }  
         monster_array.push(new_monster);       
+    }
+    if (num_monsters == 4){
+        addition_lives = 2;
+    }
+    else if (num_monsters >= 2){
+        addition_lives = 1;
+    }
+    else{
+        addition_lives = 0;
     }
     lives=5;
     var game_container_div = document.createElement("DIV");
@@ -834,7 +995,6 @@ function GameStart() {
     }
     elusive_pacman_object.i = Math.floor(board.length/2);
     elusive_pacman_object.j = Math.floor(board.length/2);
-    board[elusive_pacman_object.i][elusive_pacman_object.j]=7;
     var emptyCell = findRandomEmptyCell(board);
     board[emptyCell[0]][emptyCell[1]] = 2;
     food_remain_5--;
@@ -856,6 +1016,12 @@ function GameStart() {
 		board[emptyCell[0]][emptyCell[1]] = 6;
 		food_remain_25--;
 	}
+
+    while (addition_lives > 0){
+        var emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 7;
+		addition_lives--;
+    }
 
 	keysDown = {};
 	addEventListener(
@@ -1033,6 +1199,9 @@ function Draw() {
 				context.rect(center.x - 30, center.y - 30, 60, 60);
 				context.fill();
 			}
+            else if (board[i][j] == 7){
+                context.drawImage(heart_image,center.x-20,center.y-10,30,30);
+            }
             // else if (i==0 & j==0){
                 // context.drawImage(monster_array[0].image,0,0,60,50);
             // }
@@ -1074,6 +1243,11 @@ function UpdatePosition() {
     //eat elusive pacman position
     if (shape.i==elusive_pacman_object.i & shape.j==elusive_pacman_object.j){
         score+=50;
+        if (sound_mode){
+            eat_sound.pause();
+            eat_sound.currentTime = 0;
+            eat_sound.play()
+        }
         elusive_pacman_alive=false;
         elusive_pacman_object.j=null;
         elusive_pacman_object.i=null;
@@ -1081,13 +1255,39 @@ function UpdatePosition() {
     }
 	if (board[shape.i][shape.j] == 1) {
 		score+=5;
+        if (sound_mode){
+            eat_sound.pause();
+            eat_sound.currentTime = 0;
+            eat_sound.play()
+        }
 	}
 	if (board[shape.i][shape.j] == 5) {
 		score+=15;
+        if (sound_mode){
+            eat_sound.pause();
+            eat_sound.currentTime = 0;
+            eat_sound.play()
+        }
 	}
 	if (board[shape.i][shape.j] == 6) {
 		score+=25;
+        if (sound_mode){
+            eat_sound.pause();
+            eat_sound.currentTime = 0;
+            eat_sound.play()
+        }
 	}
+
+    if (board[shape.i][shape.j] == 7) {
+		lives++;
+        if (sound_mode){
+            eat_sound.pause();
+            eat_sound.currentTime = 0;
+            eat_sound.play()
+        }
+	}
+
+
 	board[shape.i][shape.j] = 2;
     if (elusive_pacman_alive){
         //update elusive pacman position
@@ -1118,9 +1318,18 @@ function UpdatePosition() {
 	time_elapsed = Math.floor((currentTime - start_time) / 1000);
 
     for (i=0;i<monster_array.length;i++){
-        if (shape.i==monster_array[i].i && shape.j == monster_array[i].j){
-            lives--;
-            score-=10;
+        if (shape.i == monster_array[i].i && shape.j == monster_array[i].j){
+            if (sound_mode){
+                monster_kill_sound.play();
+            }
+            if(monster_array[i].boss){
+                score-=20;
+                lives-=2;
+            }
+            else{
+                score-=10;
+                lives--;
+            }
             let freeSpace=findRandomEmptyCell(board);
             board[shape.i][shape.j]=0;
             shape.i=freeSpace[0];
@@ -1147,22 +1356,38 @@ function UpdatePosition() {
         }
     }
     
-	if (score >= 20 && time_elapsed <= 10) {
+	if (score >= 200 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
 	if (score >= 500) {
+        if(sound_mode){
+            win_game_sound.play();
+        }
+
+        if(music_mode){
+            music.pause();
+            music.currentTime = 0;
+        }
 		window.clearInterval(interval);
 		window.clearInterval(enemy_interval);
-		window.alert("Game completed");
+		showWinWindow();
 	} 
     else if(time_elapsed==total_time){
+        if(music_mode){
+            music.pause();
+            music.currentTime = 0;
+        }
         window.clearInterval(interval);
         window.clearInterval(enemy_interval);
-		window.alert("Time over");
-    }else if (lives==0){
+		showTiredPackmanWindow();
+    }else if (lives<=0){
+        if(music_mode){
+            music.pause();
+            music.currentTime = 0;
+        }
         window.clearInterval(interval);
         window.clearInterval(enemy_interval);
-		window.alert("You lose!");
+		showLoseWindow();
     }else {
 		Draw();
 	}
