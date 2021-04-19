@@ -1201,18 +1201,19 @@ function get_next_elusive_pacman_move(){
 }
 function move_enemies(){
     for (i=0;i<num_monsters;i++){
+        const monsters_locations=monster_array.map(x=> [x.i,x.j]);
         var move_options=new Array();
-        // move_options.push([monster_array[i].i,monster_array[i].j]);
-        if (monster_array[i].i>0 && board[monster_array[i].i-1][monster_array[i].j]!=4){
+        move_options.push([monster_array[i].i,monster_array[i].j]);
+        if (monster_array[i].i>0 && board[monster_array[i].i-1][monster_array[i].j]!=4 && monsters_locations.filter(x=>monster_array[i].i-1==x[0] && monster_array[i].j==x[1]).length==0){
             move_options.push([monster_array[i].i-1,monster_array[i].j]) ;  
         }
-        if (monster_array[i].j>0 && board[monster_array[i].i][monster_array[i].j-1]!=4){
+        if (monster_array[i].j>0 && board[monster_array[i].i][monster_array[i].j-1]!=4 && monsters_locations.filter(x=>monster_array[i].i==x[0] && monster_array[i].j-1==x[1]).length==0){
             move_options.push([monster_array[i].i,monster_array[i].j-1])  ;
         }
-        if (monster_array[i].i<24 && board[monster_array[i].i+1][monster_array[i].j]!=4){
+        if (monster_array[i].i<24 && board[monster_array[i].i+1][monster_array[i].j]!=4 && monsters_locations.filter(x=>monster_array[i].i+1==x[0] && monster_array[i].j==x[1]).length==0){
             move_options.push([monster_array[i].i+1,monster_array[i].j])  ;
         }
-        if (monster_array[i].j<9 && board[monster_array[i].i][monster_array[i].j+1]!=4){
+        if (monster_array[i].j<9 && board[monster_array[i].i][monster_array[i].j+1]!=4 && monsters_locations.filter(x=>monster_array[i].i==x[0] && monster_array[i].j+1==x[1]).length==0){
             move_options.push([monster_array[i].i,monster_array[i].j+1])  ;
         }
         var best_option=null;
