@@ -1039,8 +1039,8 @@ function GameStart() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 225);
-    enemy_interval=setInterval(move_enemies,250);
+	interval = setInterval(UpdatePosition, 185);
+    enemy_interval=setInterval(move_enemies,235);
 
 }
 function isFreeSpace(board ,i ,j){
@@ -1383,7 +1383,12 @@ function UpdatePosition() {
         }
         window.clearInterval(interval);
         window.clearInterval(enemy_interval);
-		showTiredPackmanWindow();
+        if (score < 100){
+		    showTiredPackmanWindow();
+        }
+        else{
+            showWinWindow();
+        }
     }else if (lives<=0){
         if(music_mode){
             music.pause();
