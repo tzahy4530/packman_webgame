@@ -679,7 +679,7 @@ function GameStart() {
         }  
         monster_array.push(new_monster);       
     }
-    lives=3;
+    lives=5;
     var game_container_div = document.createElement("DIV");
     game_container_div.id = "game_container";
 
@@ -1042,7 +1042,7 @@ function Draw() {
         var center = new Object();
         center.x = monster_array[i].i * 60 ;
         center.y = monster_array[i].j * 60 ;
-        context.drawImage(monster_array[i].image,center.x,center.y,60,50);
+        context.drawImage(monster_array[i].image,center.x-30,center.y,110,60);
 
     }
 }
@@ -1119,11 +1119,30 @@ function UpdatePosition() {
     for (i=0;i<monster_array.length;i++){
         if (shape.i==monster_array[i].i && shape.j == monster_array[i].j){
             lives--;
+            score-=10;
             let freeSpace=findRandomEmptyCell(board);
             board[shape.i][shape.j]=0;
             shape.i=freeSpace[0];
             shape.j=freeSpace[1];
             board[freeSpace[0]][freeSpace[1]]=2;
+            for (j=0;j<monster_array.length;j++){
+                if (j==0){
+                    monster_array[j].i=0;
+                    monster_array[j].j=0;
+                }
+                else if (j==1){
+                    monster_array[j].i=0;
+                    monster_array[j].j=9;
+                } else if (j==2){
+                    monster_array[j].i=24;
+                    monster_array[j].j=0;
+                } else if (j==3){
+                    monster_array[j].i=24;
+                    monster_array[j].j=9;
+                } 
+            }
+            break;
+
         }
     }
     
