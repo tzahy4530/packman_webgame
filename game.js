@@ -1001,6 +1001,7 @@ function GameStart() {
     shape.i = emptyCell[0];
     shape.j = emptyCell[1];
     pacman_remain--;
+    total_balls_remains = food_remain_5 + food_remain_15 + food_remain_25;
 	while (food_remain_5 > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
@@ -1255,6 +1256,7 @@ function UpdatePosition() {
     }
 	if (board[shape.i][shape.j] == 1) {
 		score+=5;
+        total_balls_remains--;
         if (sound_mode){
             eat_sound.pause();
             eat_sound.currentTime = 0;
@@ -1263,6 +1265,7 @@ function UpdatePosition() {
 	}
 	if (board[shape.i][shape.j] == 5) {
 		score+=15;
+        total_balls_remains--;
         if (sound_mode){
             eat_sound.pause();
             eat_sound.currentTime = 0;
@@ -1271,6 +1274,7 @@ function UpdatePosition() {
 	}
 	if (board[shape.i][shape.j] == 6) {
 		score+=25;
+        total_balls_remains--;
         if (sound_mode){
             eat_sound.pause();
             eat_sound.currentTime = 0;
@@ -1359,7 +1363,7 @@ function UpdatePosition() {
 	if (score >= 200 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
-	if (score >= 500) {
+	if (total_balls_remains == 0) {
         if(sound_mode){
             win_game_sound.play();
         }
