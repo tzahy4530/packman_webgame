@@ -872,8 +872,8 @@ function GameStart() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 150);
-    enemy_interval=setInterval(move_enemies,300);
+	interval = setInterval(UpdatePosition, 225);
+    enemy_interval=setInterval(move_enemies,250);
 
 }
 function isFreeSpace(board ,i ,j){
@@ -1043,6 +1043,7 @@ function Draw() {
         center.x = monster_array[i].i * 60 ;
         center.y = monster_array[i].j * 60 ;
         context.drawImage(monster_array[i].image,center.x-30,center.y,110,60);
+
 
     }
 }
