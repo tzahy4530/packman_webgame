@@ -3,6 +3,12 @@ var active_divs = []
 
 $(document).ready(function() {
 	wellcome();
+
+	document.getElementById("myModal").addEventListener('keydown',function(e){
+		if (e.key == "escape"){
+			$("myModal").style.display='none';
+		}
+	})
 });
 
 function clearPage(){
@@ -25,6 +31,12 @@ function moveRegister(){
 function moveLogin(){
 	clearPage();
 	login();
+}
+
+function hideAboutUs(e){
+	if(e.key == "Escape"){
+		modal.style.display = 'none';
+	}
 }
 
  function validLogin(username,password) {
