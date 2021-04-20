@@ -126,6 +126,18 @@ function login(){
 	});
 	back_button_li.appendChild(back_button);
 	document.getElementById("register_form_ul").appendChild(back_button_li);
+
+	login_div.addEventListener("keydown",function(e){
+		if(e.key == "Enter"){
+			var valid = validLogin('#username','#password');
+			if(valid){
+				clearPage();
+				active_divs = [];
+				GameMenu(login_user);
+			}
+		return false
+		}
+	})
 }
 
 

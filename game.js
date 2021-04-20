@@ -1055,7 +1055,6 @@ function isFreeSpace(board ,i ,j){
     return true;
 }
 function findRandomEmptyCell(board) {
-    let free_space=false;
 	var i = Math.floor(Math.random() * 24 + 1);
 	var j = Math.floor(Math.random() * 9 + 1);
 	while (!isFreeSpace(board,i,j)) {
