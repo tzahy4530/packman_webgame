@@ -24,10 +24,10 @@ var up_key_code = "ArrowUp";
 var down_key_code = "ArrowDown";
 var left_key_code = "ArrowLeft";
 var right_key_code = "ArrowRight";
-var music = new Audio('game-music.mp3');
-var eat_sound = new Audio("eating-sound.mp3");
-var monster_kill_sound = new Audio("monster-kill.mp3");
-var win_game_sound = new Audio("win-game.mp3");
+var music = new Audio('resources/game-music.mp3');
+var eat_sound = new Audio("resources/eating-sound.mp3");
+var monster_kill_sound = new Audio("resources/monster-kill.mp3");
+var win_game_sound = new Audio("resources/win-game.mp3");
 var heart_image = new Image();
 var music_mode = true;
 var sound_mode = true;
@@ -709,7 +709,7 @@ function showWinWindow(){
 function showTiredPackmanWindow(){
     var tired_window_div = document.createElement("DIV");
     tired_window_div.id = "win_window";
-    tired_window_div.style = "background: url('tired-packman.jpg'); background-repeat: no-repeat; background-size: 400px 300px;"
+    tired_window_div.style = "background: url('resources/tired-packman.jpg'); background-repeat: no-repeat; background-size: 400px 300px;"
     document.getElementById("game_container").appendChild(tired_window_div);
   
     let tired_window_ul = document.createElement("UL");
@@ -800,7 +800,7 @@ function GameStart() {
     //5-15 points food
     //6- 25 point food 
     music.volume = 0.5;
-    heart_image.src = "heart.png"
+    heart_image.src = "resources/heart.png"
     if (music_mode){
         music.play();
     }
@@ -811,21 +811,21 @@ function GameStart() {
         new_monster.image=new Image();
         new_monster.boss=false;
         if (i==0){
-            new_monster.image.src="pacman-ghosts-cyan.png"
+            new_monster.image.src="resources/pacman-ghosts-cyan.png"
             new_monster.i=0;
             new_monster.j=0;
         }
          else if (i==1){
-            new_monster.image.src="pacman-ghosts-orange.png"
+            new_monster.image.src="resources/pacman-ghosts-orange.png"
             new_monster.i=0;
             new_monster.j=9;
             new_monster.boss = true;
         } else if (i==2){
-            new_monster.image.src="pacman-ghosts-ping.png"
+            new_monster.image.src="resources/pacman-ghosts-ping.png"
             new_monster.i=24;
             new_monster.j=0;
         } else if (i==3){
-            new_monster.image.src="pacman-ghosts-red.png"
+            new_monster.image.src="resources/pacman-ghosts-red.png"
             new_monster.i=24;
             new_monster.j=9;
         }  
