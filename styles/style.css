@@ -13,7 +13,7 @@
 .menu{
     width: 1024px;
     display: table;
-    background: url('resources/menu_background.jpg') repeat-x;
+    background: url('../resources/menu_background.jpg') repeat-x;
 }
 
 ul#menu_bar li{
@@ -68,7 +68,7 @@ a.menu_button:hover{
 #footer_bar{
     max-width: 100%;
     height: 25px;
-    background: url('resources/menu_background.jpg') repeat-x;
+    background: url('../resources/menu_background.jpg') repeat-x;
 }
 
 a.footerButton{
@@ -319,7 +319,7 @@ body {
 }
 
 #win_window{
-    background: url('resources/winner-background.jpg');
+    background: url('../resources/winner-background.jpg');
     background-repeat: no-repeat; 
     background-size: 400px 300px;
     box-sizing: border-box;
@@ -333,7 +333,7 @@ body {
 }
 
 #lose_window{
-    background: url('resources/pacman-ghosts-orange.png');
+    background: url('../resources/pacman-ghosts-orange.png');
     background-repeat: no-repeat; 
     background-size: 250px 150px;
     background-position: center;
