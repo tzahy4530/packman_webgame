@@ -43,6 +43,11 @@ function addUser(username,password,fullname,email,birthday){
     var email = $(email).val();
     var birthday = $(birthday).val();
 
+    if (username in user_dic){
+        alert("Username already exists in the system.")
+        return false
+    }
+
     user_dic[username] = [password, fullname, email, birthday];
     alert("Registration succeeded.");
     return null;

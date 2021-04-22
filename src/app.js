@@ -3,11 +3,6 @@ var active_divs = []
 
 $(document).ready(function() {
 	wellcome();
-	document.getElementById("myModal").addEventListener('keydown',function(e){
-		if (e.key == "escape"){
-			$("myModal").style.display='none';
-		}
-	})
 });
 
 function clearPage(){
@@ -34,6 +29,30 @@ function moveLogin(){
 
 
 function wellcome(){
+	document.getElementById("myModal").addEventListener('keydown',function(e){
+		if (e.key == "Escape"){
+			document.getElementById("myModal").style.display = 'none';
+		}
+	})
+	document.getElementById("about_us").addEventListener("click", function (){
+		document.getElementById("myModal").style.display = 'block';
+		document.getElementById("myModal").focus()
+	})
+	var modal = document.getElementById("myModal");
+
+
+	var btn = document.getElementById("closeModal");
+
+	btn.onclick = function() {
+		modal.style.display = "none";
+	}
+
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+
 	var welcome_div = document.createElement("DIV");
 	welcome_div.id = "welcome";
 
