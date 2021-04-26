@@ -112,6 +112,8 @@ function showWinWindow(){
     play_again_button.innerHTML = "Play Again";
     play_again_button.className = "win_button";
     play_again_button.addEventListener("click",function(){
+        window.clearInterval(interval);
+        window.clearInterval(enemy_interval);
         clearPage();
         GameStart();
     })
@@ -155,6 +157,8 @@ function showTiredPackmanWindow(){
     play_again_button.className = "win_button";
     play_again_button.addEventListener("click",function(){
         clearPage();
+        window.clearInterval(interval);
+        window.clearInterval(enemy_interval);
         GameStart();
     })
     tired_buttons_li.appendChild(play_again_button);
@@ -200,9 +204,33 @@ function showLoseWindow(){
     play_again_button.className = "lose_button";
     play_again_button.addEventListener("click",function(){
         clearPage();
+        window.clearInterval(interval);
+        window.clearInterval(enemy_interval);
         GameStart();
     })
     lose_buttons_li.appendChild(play_again_button);
+}
+
+function newGame(){
+    window.clearInterval(interval);
+    window.clearInterval(enemy_interval);
+    clearPage()
+    GameStart()
+}
+
+function UpdateInGameBar(){
+    if (document.getElementById("new_game_button") != null){
+        return
+    }
+    var new_game_li = document.createElement("LI");
+    document.getElementById("menu_bar").appendChild(new_game_li);
+
+    var new_game_a = document.createElement("A");
+    new_game_a.id = "new_game_button"
+    new_game_a.setAttribute('onclick', "return newGame()")
+    new_game_a.className = "menu_button";
+    new_game_a.innerText = "New Game";
+    new_game_li.appendChild(new_game_a);
 }
 
 function GameStart() {
@@ -211,7 +239,8 @@ function GameStart() {
     //3-
     //4-wall 
     //5-15 points food
-    //6- 25 point food 
+    //6- 25 point food
+    UpdateInGameBar()
     music.volume = 0.5;
     heart_image.src = "resources/heart.png"
     if (music_mode){
