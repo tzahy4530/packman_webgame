@@ -1,5 +1,5 @@
 # 312197676 – Tzah Ben Hamo, 311363568 – Netanel Shaked.
-WebSite: 	https://web-development-environments-2021.github.io/312197676_311363568/
+WebSite: 	https://web-development-environments-2021.github.io/Assignment2_312197676_311363568/
 
 
 Addition Functions:	
