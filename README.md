@@ -6,7 +6,7 @@ Functions:
 
 •	Strong Monster (Boss) – with Horns, when she kill packman, packman lose 20 score and 2 lives.
 
-•	Addition Lives – packman can pick addition lives from the board, addition 2 lives when 4 monsters, addition 1 lives when 2-3 monster.
+•	Addition Lives – packman can pick addition lives from the board, addition 2 lives when 4 monsters or 1 lives when 2-3 monster.
 
 •	Sounds – when winning, eating, dying.
 
