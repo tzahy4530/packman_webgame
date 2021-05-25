@@ -1,5 +1,5 @@
 # Packman web game
-WebSite: 	https://web-development-environments-2021.github.io/Assignment2_312197676_311363568/
+WebSite: 	https://tzahy4530.github.io/packman_webgame/
 
 
 Functions:	
